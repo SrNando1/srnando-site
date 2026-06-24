@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Portfolio | SrNando</title>
+  </head>
+  <body>
+    <header>
+      <a href="index.html"
+        ><img src="img/logo.png" alt="SrNando" class="logo"
+      /></a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicos.html">Services</a></li>
+          <li><a href="sobre.html">About</a></li>
+          <li><a href="contactos.html">Contact</a></li>
+          <li><a href="budget.html" class="nav-cta">Get a Quote</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1 class="section-title">Portfolio</h1>
+      <p class="lead">Selected projects I designed and built end to end.</p>
+
+      <div class="projects-grid">
+        <!-- CriptoRadar (real project) -->
+        <article class="project-card">
+          <div
+            class="project-thumb"
+            style="
+              background-image: url(&quot;img/criptoradar.png&quot;);
+            "
+          >
+            CriptoRadar
+          </div>
+          <div class="project-body">
+            <h3>CriptoRadar — Crypto-Tracking SaaS</h3>
+            <p>
+              A full-stack SaaS that tracks cryptocurrency prices in real time,
+              with watchlists, price alerts and an AI market-analysis feature.
+              Built solo: Supabase auth (email + Google OAuth) with row-level
+              security, subscription payments via HMAC-verified webhooks, and a
+              serverless Edge Function that emails alerts on a cron schedule.
+            </p>
+            <div class="tags">
+              <span class="tag">React 19</span>
+              <span class="tag">Supabase</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Webhooks</span>
+              <span class="tag">Edge Functions</span>
+              <span class="tag">LLM / AI</span>
+            </div>
+            <a
+              class="project-link"
+              href="https://cripto-radar.vercel.app"
+              target="_blank"
+              rel="noopener"
+              >View live app →</a
+            >
+          </div>
+        </article>
+
+        <!-- SummaryAI (real project) -->
+        <article class="project-card">
+          <div
+            class="project-thumb"
+            style="background-image: url(&quot;img/summaryai.png&quot;)"
+          >
+            SummaryAI
+          </div>
+          <div class="project-body">
+            <h3>SummaryAI — AI Text &amp; Audio Summarizer (Android)</h3>
+            <p>
+              A native Android app that summarizes text and voice recordings
+              using AI. Pick a summary style (short, normal, detailed); for
+              audio it transcribes the recording first, then summarizes it.
+              Built with Jetpack Compose and a Node.js/Express backend that
+              calls LLMs (GPT-4o) through OpenRouter, handling file uploads and
+              transcription server-side.
+            </p>
+            <div class="tags">
+              <span class="tag">Kotlin</span>
+              <span class="tag">Jetpack Compose</span>
+              <span class="tag">Retrofit</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">OpenRouter / LLM</span>
+            </div>
+            <span class="tag" style="background: #e7e7e7; color: #555"
+              >Android app · demo available on request</span
+            >
+          </div>
+        </article>
+
+        <!-- Fuel Calculator (real project) -->
+        <article class="project-card">
+          <div
+            class="project-thumb"
+            style="
+              background-image: url(&quot;img/fuelcalc.png&quot;);
+            "
+          >
+            Fuel Calculator
+          </div>
+          <div class="project-body">
+            <h3>Aviation Fuel Calculator (iOS &amp; Android)</h3>
+            <p>
+              A cross-platform app for airline ground operations that reconciles
+              aircraft fuel. It converts between pounds, gallons and litres
+              using fuel density, computes the uplift across multiple tanks, and
+              checks the discrepancy against fleet-specific tolerances (A320,
+              B737, B777 and more) — with a step-by-step "fill helper" that
+              shows every formula. Per-airline calculators (Delta, United, Air
+              Canada…).
+            </p>
+            <div class="tags">
+              <span class="tag">React Native</span>
+              <span class="tag">Expo</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">EAS Build</span>
+              <span class="tag">Cross-platform</span>
+            </div>
+            <span class="tag" style="background: #e7e7e7; color: #555"
+              >Mobile app · demo available on request</span
+            >
+          </div>
+        </article>
+
+        <!-- Accident Report (real project) -->
+        <article class="project-card">
+          <div
+            class="project-thumb"
+            style="
+              background-image: url(&quot;img/accidentreport.png&quot;);
+            "
+          >
+            Accident Report
+          </div>
+          <div class="project-body">
+            <h3>Accident Report — Incident Reporting System</h3>
+            <p>
+              A complete full-stack system for workplace incident reporting,
+              running on web, Android and iOS from a single codebase. Users
+              authenticate (JWT), create detailed reports with vehicles,
+              employers, photo/document uploads and root-cause analysis, save
+              drafts, view statistics, and export finished reports to DOCX/PDF.
+              Backed by a Node/Express REST API and a MySQL database.
+            </p>
+            <div class="tags">
+              <span class="tag">React Native</span>
+              <span class="tag">Expo</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">MySQL</span>
+              <span class="tag">JWT Auth</span>
+            </div>
+            <span class="tag" style="background: #e7e7e7; color: #555"
+              >Web &amp; mobile · demo available on request</span
+            >
+          </div>
+        </article>
+
+        <!-- Placeholder for the next project -->
+        <article class="project-card">
+          <div class="project-thumb">More soon</div>
+          <div class="project-body">
+            <h3>Your project here</h3>
+            <p>
+              I'm currently taking on new web &amp; SaaS projects. Have
+              something in mind? Let's talk about it.
+            </p>
+            <a class="project-link" href="budget.html">Request a quote →</a>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 SrNando — Fernando Gonçalves. All rights reserved.</p>
+      <p>
+        Lisbon, Portugal ·
+        <a href="mailto:fernandosantosav135@gmail.com"
+          >fernandosantosav135@gmail.com</a
+        >
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

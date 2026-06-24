@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Contact | SrNando</title>
+  </head>
+
+  <body>
+    <header>
+      <a href="index.html"><img src="img/logo.png" alt="SrNando" class="logo" /></a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicos.html">Services</a></li>
+          <li><a href="sobre.html">About</a></li>
+          <li><a href="contactos.html">Contact</a></li>
+          <li><a href="budget.html" class="nav-cta">Get a Quote</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1 class="section-title">Contact</h1>
+      <p class="lead">
+        Tell me about your project and I'll get back to you, usually within a
+        day.
+      </p>
+
+      <div class="contact-grid">
+        <div class="form-card">
+          <form
+            id="contactForm"
+            action="https://formsubmit.co/fernandosantosav135@gmail.com"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" value="New contact — SrNando site" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" />
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit" class="btn">Send message</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="contact-info" style="margin-bottom: 1.5rem">
+            <h2 style="color: var(--dark); margin-bottom: 0.75rem">
+              Get in touch
+            </h2>
+            <p>📍 Lisbon, Portugal</p>
+            <p>
+              ✉️ <a href="mailto:fernandosantosav135@gmail.com">fernandosantosav135@gmail.com</a>
+            </p>
+            <p>🕒 Available for remote work worldwide</p>
+          </div>
+          <div class="contact-map">
+            <iframe
+              src="https://www.google.com/maps?q=Lisbon,Portugal&output=embed"
+              loading="lazy"
+              title="Lisbon, Portugal"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 SrNando — Fernando Gonçalves. All rights reserved.</p>
+      <p>
+        Lisbon, Portugal ·
+        <a href="mailto:fernandosantosav135@gmail.com">fernandosantosav135@gmail.com</a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

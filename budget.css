@@ -1,0 +1,70 @@
+.menu-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #333;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.menu-bar a {
+  float: left;
+  display: block solid;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.menu-bar a:hover {
+  background-color: #575757;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.content h1 {
+  margin-top: 50px;
+}
+
+body {
+  background-color: rgb(179, 178, 178);
+}
+
+.content {
+  font-family: "Dosis", arial;
+  font-size: 16px;
+  margin: 0 auto;
+  padding: 25px;
+  width: 500px;
+  border-radius: 11px 11px 11px 11px;
+  -moz-border-radius: 11px 11px 11px 11px;
+  -webkit-border-radius: 11px 11px 11px 11px;
+  border: 0px solid #000000;
+}
+
+.content label {
+  display: block;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.content input[type="text"],
+.content input[type="number"],
+.content select {
+  display: block;
+  margin-bottom: 15px; /* Ajuste conforme necessário */
+  width: 100%; /* Opcional: ajusta a largura dos inputs */
+}
+.content input[type="checkbox"] {
+  margin-right: 10px; /* Espaçamento entre checkbox e texto */
+  margin-bottom: 15px;
+}
+
+.content {
+  background-color: #000000;
+  color: white;
+}
