@@ -25,10 +25,10 @@
     </header>
 
     <main class="container">
-      <h1 class="section-title">Get an instant estimate</h1>
+      <h1 class="section-title">Request a quote</h1>
       <p class="lead">
-        Configure your project below for a ballpark price, then send it to me —
-        I'll reply with a firm quote and timeline.
+        Tell me about your project and I'll get back to you with a firm quote
+        and timeline — usually within a day.
       </p>
 
       <div class="form-card">
@@ -44,6 +44,7 @@
           />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
+
           <label for="name">Name</label>
           <input type="text" id="name" name="Name" required />
 
@@ -51,115 +52,55 @@
           <input type="email" id="email" name="Email" required />
 
           <label for="page-type">Project type</label>
-          <select
-            id="page-type"
-            name="Project Type"
-            onchange="calculateBudget()"
-          >
-            <option value="basic" data-price="500">Basic website — €500</option>
-            <option value="intermediate" data-price="1000">
-              Intermediate web app — €1000
-            </option>
-            <option value="advanced" data-price="2000">
-              Advanced / SaaS — €2000
-            </option>
+          <select id="page-type" name="Project Type">
+            <option value="Basic website">Basic website</option>
+            <option value="Intermediate web app">Intermediate web app</option>
+            <option value="Advanced / SaaS app">Advanced / SaaS app</option>
+            <option value="Mobile app">Mobile app</option>
+            <option value="Not sure yet">Not sure yet</option>
           </select>
 
           <label for="months">Timeframe (months)</label>
-          <input
-            type="number"
-            id="months"
-            name="Timeframe"
-            min="1"
-            value="1"
-            onchange="calculateBudget()"
-          />
+          <input type="number" id="months" name="Timeframe" min="1" />
 
           <label>Features</label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="About / company page"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="About / company page" value="Yes" />
             About / company page
           </label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="Location / map"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="Location / map" value="Yes" />
             Location / map
           </label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="Photo gallery"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="Photo gallery" value="Yes" />
             Photo gallery
           </label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="E-commerce"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="E-commerce" value="Yes" />
             E-commerce
           </label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="Admin / internal dashboard"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="Admin / internal dashboard" value="Yes" />
             Admin / internal dashboard
           </label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="News / blog"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="News / blog" value="Yes" />
             News / blog
           </label>
           <label class="checkbox-row">
-            <input
-              type="checkbox"
-              class="feature"
-              data-price="400"
-              name="Social media integration"
-              value="Yes"
-              onchange="calculateBudget()"
-            />
+            <input type="checkbox" name="Social media integration" value="Yes" />
             Social media integration
           </label>
 
-          <div class="result-line">
-            Estimated total: <span id="final-budget">€500.00</span>
-          </div>
-          <input type="hidden" id="estimate" name="estimate" value="€500.00" />
+          <label for="details">Project details</label>
+          <textarea
+            id="details"
+            name="Details"
+            placeholder="Describe what you need, your goals, and anything relevant."
+          ></textarea>
 
-          <button type="submit" class="btn">Send this request</button>
+          <button type="submit" class="btn">Send request</button>
         </form>
       </div>
     </main>
@@ -174,26 +115,6 @@
       </p>
     </footer>
 
-    <script>
-      function calculateBudget() {
-        const pageType = document.getElementById("page-type");
-        const months = parseInt(document.getElementById("months").value) || 1;
-        const features = document.querySelectorAll(".feature:checked");
-        const basePrice = parseInt(
-          pageType.options[pageType.selectedIndex].dataset.price,
-        );
-        let tabPrice = 0;
-        features.forEach((f) => (tabPrice += parseInt(f.dataset.price)));
-
-        const discount = Math.min(months * 0.05, 0.2);
-        const finalPrice = (basePrice + tabPrice) * (1 - discount);
-        const formatted = `€${finalPrice.toFixed(2)}`;
-
-        document.getElementById("final-budget").textContent = formatted;
-        document.getElementById("estimate").value = formatted;
-      }
-      calculateBudget();
-    </script>
     <script src="script.js"></script>
   </body>
 </html>
