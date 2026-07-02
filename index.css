@@ -290,6 +290,41 @@ nav a.nav-cta:hover {
   color: var(--light);
 }
 
+/* COMMUNITY LIST */
+.community-list {
+  margin-top: 2rem;
+  border-top: 1px solid #e6e6e6;
+}
+.community-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.4rem 0.25rem;
+  border-bottom: 1px solid #e6e6e6;
+}
+.community-item .community-text {
+  flex: 1;
+}
+.community-item h3 {
+  color: var(--dark);
+  margin-bottom: 0.2rem;
+}
+.community-item p {
+  color: var(--muted);
+  margin: 0;
+}
+.community-item .project-link {
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .community-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
 /* FORMS */
 .form-card {
   background: var(--light);
