@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Suggestions | SrNando</title>
+  </head>
+
+  <body>
+    <header>
+      <a href="index.html"><img src="img/logo.png" alt="SrNando" class="logo" /></a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicos.html">Services</a></li>
+          <li><a href="sobre.html">About</a></li>
+          <li><a href="contactos.html">Contact</a></li>
+          <li><a href="suggestions.html">Suggestions</a></li>
+          <li><a href="budget.html" class="nav-cta">Get a Quote</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1 class="section-title">Suggestions</h1>
+      <p class="lead">
+        Have an idea? Suggest a brand-new project, or a feature for one of my
+        existing projects. I read every suggestion.
+      </p>
+
+      <div class="form-card">
+        <form
+          id="suggestion-form"
+          action="https://formsubmit.co/fernandosantosav135@gmail.com"
+          method="POST"
+        >
+          <input
+            type="hidden"
+            name="_subject"
+            value="New suggestion — SrNando site"
+          />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+
+          <label for="sugg-type">Suggestion type</label>
+          <select id="sugg-type" name="Suggestion Type" onchange="toggleProject()">
+            <option value="New project idea">New project idea</option>
+            <option value="Feature for an existing project">
+              Feature for an existing project
+            </option>
+          </select>
+
+          <div id="project-row" style="display: none">
+            <label for="project">Which project?</label>
+            <select id="project" name="Project">
+              <option value="CriptoRadar">CriptoRadar</option>
+              <option value="SummaryAI">SummaryAI</option>
+              <option value="Aviation Fuel Calculator">
+                Aviation Fuel Calculator
+              </option>
+              <option value="Accident Report">Accident Report</option>
+            </select>
+          </div>
+
+          <label for="suggestion">Your suggestion</label>
+          <textarea
+            id="suggestion"
+            name="Suggestion"
+            required
+            placeholder="Describe your idea or the feature you'd like to see."
+          ></textarea>
+
+          <label for="name">Name (optional)</label>
+          <input type="text" id="name" name="Name" />
+
+          <label for="email">Email (optional — if you'd like a reply)</label>
+          <input type="email" id="email" name="Email" />
+
+          <button type="submit" class="btn">Send suggestion</button>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 SrNando — Fernando Gonçalves. All rights reserved.</p>
+      <p>
+        Lisbon, Portugal ·
+        <a href="mailto:fernandosantosav135@gmail.com"
+          >fernandosantosav135@gmail.com</a
+        >
+      </p>
+    </footer>
+
+    <script>
+      function toggleProject() {
+        const type = document.getElementById("sugg-type").value;
+        document.getElementById("project-row").style.display =
+          type === "Feature for an existing project" ? "block" : "none";
+      }
+      toggleProject();
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
