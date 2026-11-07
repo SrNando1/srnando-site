@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="docs.css" />
+    <title>Accident Report — Project Details | SrNando</title>
+    <meta
+      name="description"
+      content="Technical overview and plain-language glossary of the technologies, architecture and engineering decisions behind SrNando's Accident Report platform — written for recruiters and clients."
+    />
+  </head>
+  <body>
+    <header>
+      <a href="index.html"
+        ><img src="img/logo.png" alt="SrNando" class="logo"
+      /></a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicos.html">Services</a></li>
+          <li><a href="sobre.html">About</a></li>
+          <li><a href="contactos.html">Contact</a></li>
+          <li><a href="suggestions.html">Suggestions</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="budget.html" class="nav-cta">Get a Quote</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="doc-hero">
+      <div class="doc-hero-inner">
+        <span class="eyebrow">Portfolio · Accident Report</span>
+        <h1>What's under the hood — explained so anyone can follow</h1>
+        <p>
+          A guided tour of the architecture, technologies and engineering
+          decisions behind <strong>Accident Report</strong>, a production-style
+          incident-management platform I built end to end. Every term has a
+          plain-language explanation and a pointer to where it is used in the
+          real code.
+        </p>
+        <div class="btn-group">
+          <a href="portfolio.html" class="btn btn-outline">← Back to Portfolio</a>
+          <a href="https://demo.accidentreport.dev" target="_blank" rel="noopener" class="btn btn-gold">▶ Live demo</a>
+          <a href="#glossary" class="btn btn-outline">Jump to the glossary</a>
+          <a href="downloads/AccidentReport-User-Manual.pdf" target="_blank" rel="noopener" class="btn btn-outline">Download the user manual (PDF)</a>
+        </div>
+      </div>
+    </section>
+
+    <main class="container">
+      <!-- ============ AT A GLANCE ============ -->
+      <h2 class="section-title">The project at a glance</h2>
+      <p class="lead">
+        Accident Report lets transport and airside-operations companies record,
+        review and archive incident investigations — from a phone on the apron
+        or a PC in the office — replacing paper forms and scattered files.
+      </p>
+
+      <div class="stat-strip">
+        <div class="stat"><strong>1</strong><span>codebase → web + Android</span></div>
+        <div class="stat"><strong>3</strong><span>user roles + a platform owner</span></div>
+        <div class="stat"><strong>12</strong><span>REST API modules</span></div>
+        <div class="stat"><strong>4</strong><span>export formats: PDF, Word, Excel, ZIP</span></div>
+        <div class="stat"><strong>N</strong><span>customers on one install (multi-tenant)</span></div>
+      </div>
+
+      <!-- ============ ARCHITECTURE ============ -->
+      <h2 class="sub-title">How the pieces fit together</h2>
+      <p class="lead" style="margin-bottom: 0">
+        A request travels left to right. Each box has one job.
+      </p>
+
+      <div class="arch" role="img" aria-label="Architecture: client app to Caddy web server to Node API to MariaDB database and file storage">
+        <div class="arch-node">
+          <small>Client</small>
+          <h4>React Native + Expo</h4>
+          <p>The screens people use. Same code runs as a website and as an Android app.</p>
+        </div>
+        <div class="arch-node">
+          <small>Edge</small>
+          <h4>Caddy</h4>
+          <p>Serves the website, forwards <span class="mono">/api</span> calls, and handles HTTPS certificates automatically.</p>
+        </div>
+        <div class="arch-node">
+          <small>Server</small>
+          <h4>Node.js + Express API</h4>
+          <p>Checks who you are, what you may do, then reads or writes data. Generates documents.</p>
+        </div>
+        <div class="arch-node">
+          <small>Storage</small>
+          <h4>MariaDB + uploads</h4>
+          <p>Relational database for records; a persistent volume for photos and documents.</p>
+        </div>
+      </div>
+      <div class="arch-note">
+        <strong>Safety net:</strong> a nightly script dumps the database and
+        uploads, <em>encrypts</em> them, and copies them to a separate Hetzner
+        Storage Box — so losing the server does not mean losing the data.
+      </div>
+
+      <!-- ============ STACK TABLE ============ -->
+      <h2 class="sub-title">Technology stack</h2>
+      <div class="table-wrap">
+        <table class="doc-table">
+          <thead>
+            <tr><th>Layer</th><th>Technologies</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Client (Android + web)</td><td>React Native 0.79, Expo 53, React Navigation, react-native-web, recharts / chart-kit</td></tr>
+            <tr><td>API</td><td>Node.js, Express 4, JSON Web Tokens, bcrypt, multer, helmet, express-rate-limit</td></tr>
+            <tr><td>Database</td><td>MySQL / MariaDB with a versioned schema and migrations</td></tr>
+            <tr><td>Documents</td><td>pdf-lib, docx, jszip, jspdf, Excel (.xlsx) export</td></tr>
+            <tr><td>Infrastructure</td><td>Docker Compose, Caddy (automatic HTTPS), Hetzner VPS, encrypted offsite backups</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ============ LIVE DEMO ============ -->
+      <h2 class="section-title" id="demo" style="margin-top: 3.5rem">Try the live demo</h2>
+      <p class="lead">
+        A public copy of Accident Report with <strong>fictional data</strong>
+        (12 people, 10 vehicles, 30 reports and 4 drafts), running on its own
+        server and database, completely separate from any real system. Sign in
+        with any of the accounts below.
+      </p>
+
+      <div class="demo-cards">
+        <article class="demo-card">
+          <h3>Operator <span class="cat">AERO</span></h3>
+          <dl>
+            <dt>E-mail</dt><dd><span class="mono">operator@demo.invalid</span></dd>
+            <dt>Password</dt><dd><span class="mono">Demo-Accident-2026</span></dd>
+            <dt>You land on</dt><dd>Vehicle picker</dd>
+          </dl>
+          <p><strong>Try:</strong> pick a vehicle to start a report, continue a draft, open completed reports (each downloads as a ZIP with its PDF).</p>
+        </article>
+        <article class="demo-card">
+          <h3>Supervisor <span class="cat">SUP</span></h3>
+          <dl>
+            <dt>E-mail</dt><dd><span class="mono">supervisor@demo.invalid</span></dd>
+            <dt>Password</dt><dd><span class="mono">Demo-Accident-2026</span></dd>
+            <dt>You land on</dt><dd>Shift picker (A / B / C)</dd>
+          </dl>
+          <p><strong>Try:</strong> open a shift, then approve or reject its pending reports (a rejection asks for a reason).</p>
+        </article>
+        <article class="demo-card">
+          <h3>Admin <span class="cat">ADMIN</span></h3>
+          <dl>
+            <dt>E-mail</dt><dd><span class="mono">admin@demo.invalid</span></dd>
+            <dt>Password</dt><dd><span class="mono">Demo-Accident-2026</span></dd>
+            <dt>You land on</dt><dd>Admin dashboard</dd>
+          </dl>
+          <p><strong>Try:</strong> statistics, Users, Employers, Vehicles, Reports, Mitigation Measures and the Excel export of the database.</p>
+        </article>
+      </div>
+
+      <div class="arch-note">
+        <strong>Good to know:</strong> everything is fictional — please do not
+        type real names, plates or personal data. The demo resets every night
+        (about 04:00 UTC), so anything you create disappears. The accounts and
+        shared password are public on purpose, and the
+        <span class="mono">.invalid</span> e-mail domain never exists on the
+        internet, so nothing is ever delivered. The three accounts share one
+        database: what you approve as Supervisor shows up for the Admin right
+        away.
+      </div>
+      <p style="margin-top: 1.25rem">
+        <a href="https://demo.accidentreport.dev" target="_blank" rel="noopener" class="btn btn-gold">▶ Open the live demo</a>
+      </p>
+
+      <!-- ============ GLOSSARY ============ -->
+      <h2 class="section-title" id="glossary" style="margin-top: 3.5rem">Glossary of technical terms</h2>
+      <p class="lead">
+        Search or filter by area. Each card explains the term in plain words
+        and shows how it is used in this project.
+      </p>
+
+      <div class="glossary-tools">
+        <input type="search" id="term-search" placeholder="Search terms… (e.g. JWT, Docker, multi-tenant)" aria-label="Search glossary" />
+        <div class="chips" id="chips">
+          <button class="chip active" data-cat="all">All</button>
+          <button class="chip" data-cat="Front end">Front end</button>
+          <button class="chip" data-cat="Back end">Back end</button>
+          <button class="chip" data-cat="Data">Data</button>
+          <button class="chip" data-cat="Security">Security</button>
+          <button class="chip" data-cat="DevOps">DevOps</button>
+          <button class="chip" data-cat="Documents">Documents</button>
+          <button class="chip" data-cat="Domain">Domain</button>
+          <button class="chip" data-cat="Other projects">Other projects</button>
+        </div>
+        <div class="result-count" id="result-count" aria-live="polite"></div>
+      </div>
+
+      <div class="glossary" id="glossary-list">
+        <!-- ---------- FRONT END ---------- -->
+        <article class="term" data-cat="Front end">
+          <h3>React Native <span class="cat">Front end</span></h3>
+          <p>A framework that lets you build real mobile apps using JavaScript and React, instead of writing separate Android and iOS apps.</p>
+          <p class="where"><strong>In this project:</strong> every screen — login, the multi-step investigation form, the dashboards — is a React Native component (v0.79).</p>
+        </article>
+        <article class="term" data-cat="Front end">
+          <h3>Expo <span class="cat">Front end</span></h3>
+          <p>A toolkit around React Native that handles building, running and packaging the app, so you spend time on features rather than tooling.</p>
+          <p class="where"><strong>In this project:</strong> Expo 53 runs the dev server, exports the web build, and produces the Android build through EAS Build.</p>
+        </article>
+        <article class="term" data-cat="Front end">
+          <h3>Cross-platform / single codebase <span class="cat">Front end</span></h3>
+          <p>Writing the app once and shipping it on several platforms. Less code to maintain, and every platform gets new features at the same time.</p>
+          <p class="where"><strong>In this project:</strong> one codebase becomes the website <em>and</em> the Android app using react-native-web.</p>
+        </article>
+        <article class="term" data-cat="Front end">
+          <h3>Client-side routing <span class="cat">Front end</span></h3>
+          <p>Moving between screens without reloading the whole page, while keeping a "back" history — exactly how a native app feels.</p>
+          <p class="where"><strong>In this project:</strong> React Navigation stack with 20+ screens for the form sections, driver data and reports lists.</p>
+        </article>
+        <article class="term" data-cat="Front end">
+          <h3>Role-aware UI <span class="cat">Front end</span></h3>
+          <p>The interface changes depending on who is logged in: each person only sees the menu entries that make sense for their job.</p>
+          <p class="where"><strong>In this project:</strong> Operators, Supervisors and Admins each get their own menu and landing screen.</p>
+        </article>
+        <article class="term" data-cat="Front end">
+          <h3>Responsive &amp; safe-area layout <span class="cat">Front end</span></h3>
+          <p>Layouts that adapt to phone, tablet and desktop, and avoid notches, system bars and the on-screen keyboard.</p>
+          <p class="where"><strong>In this project:</strong> keyboard-aware forms and safe-area handling were added specifically for the Android build; the admin sidebar stays open on wide screens.</p>
+        </article>
+        <article class="term" data-cat="Front end">
+          <h3>Data visualisation <span class="cat">Front end</span></h3>
+          <p>Turning raw numbers into charts people can read at a glance.</p>
+          <p class="where"><strong>In this project:</strong> admin statistics — reports per day, per severity level, rejection reasons, team performance — drawn with recharts and chart-kit.</p>
+        </article>
+
+        <!-- ---------- BACK END ---------- -->
+        <article class="term" data-cat="Back end">
+          <h3>REST API <span class="cat">Back end</span></h3>
+          <p>A set of web addresses (endpoints) the app calls to fetch or change data, using standard verbs like GET, POST, PATCH and DELETE. It is the contract between the app and the server.</p>
+          <p class="where"><strong>In this project:</strong> 12 route modules — auth, users, vehicles, employers, reports, drafts, uploads, stats, mitigation, tenant, platform and admin export.</p>
+        </article>
+        <article class="term" data-cat="Back end">
+          <h3>Node.js &amp; Express <span class="cat">Back end</span></h3>
+          <p>Node.js runs JavaScript on the server; Express is the minimal framework used to define routes and handle requests.</p>
+          <p class="where"><strong>In this project:</strong> Express 4 powers the whole API, packaged in a Docker image.</p>
+        </article>
+        <article class="term" data-cat="Back end">
+          <h3>Middleware <span class="cat">Back end</span></h3>
+          <p>Small checkpoints that every request passes through before reaching the real logic — like security guards at a door, each checking one thing.</p>
+          <p class="where"><strong>In this project:</strong> authentication, "admin only" checks, rate limiting, tenant resolution and storage-quota enforcement are all middleware.</p>
+        </article>
+        <article class="term" data-cat="Back end">
+          <h3>File upload handling <span class="cat">Back end</span></h3>
+          <p>Receiving photos and documents from the app, validating them and storing them safely on the server.</p>
+          <p class="where"><strong>In this project:</strong> multer handles multipart uploads; files are filed per customer and per report, and the quota is checked before accepting each one.</p>
+        </article>
+        <article class="term" data-cat="Back end">
+          <h3>Server-side drafts <span class="cat">Back end</span></h3>
+          <p>Unfinished work is saved on the server, not just on the device, so it survives a phone swap, a crash or switching between phone and PC.</p>
+          <p class="where"><strong>In this project:</strong> the "Save Draft" button stores the form on the API; drafts can be resumed later or finalised into a report.</p>
+        </article>
+        <article class="term" data-cat="Back end">
+          <h3>Statistics aggregation <span class="cat">Back end</span></h3>
+          <p>Letting the database do the counting and grouping, so the dashboard receives small ready-made summaries instead of thousands of rows.</p>
+          <p class="where"><strong>In this project:</strong> dedicated endpoints for reports by day, by state, by severity bin, rejection reasons, validators and draft ageing.</p>
+        </article>
+
+        <!-- ---------- DATA ---------- -->
+        <article class="term" data-cat="Data">
+          <h3>Relational database (MySQL / MariaDB) <span class="cat">Data</span></h3>
+          <p>Data stored in linked tables (users, vehicles, reports…) with rules that keep it consistent. Ideal when records relate to each other.</p>
+          <p class="where"><strong>In this project:</strong> MariaDB 10.11, created from a committed <span class="mono">schema.sql</span> plus migration files.</p>
+        </article>
+        <article class="term" data-cat="Data">
+          <h3>Schema &amp; migrations <span class="cat">Data</span></h3>
+          <p>The schema is the blueprint of the tables; migrations are small scripts that evolve that blueprint safely as the product grows.</p>
+          <p class="where"><strong>In this project:</strong> <span class="mono">BackEnd/db/schema.sql</span> bootstraps a fresh install; migrations upgrade existing ones.</p>
+        </article>
+        <article class="term" data-cat="Data">
+          <h3>Multi-tenancy <span class="cat">Data</span></h3>
+          <p>One running installation serving many separate customers whose data never mixes — the model behind most SaaS products.</p>
+          <p class="where"><strong>In this project:</strong> every record carries a <span class="mono">tenant_id</span>; users, data and uploads are isolated per customer.</p>
+        </article>
+        <article class="term" data-cat="Data">
+          <h3>Quotas &amp; usage limits <span class="cat">Data</span></h3>
+          <p>Caps on how much a customer may use — here, number of active users and storage in GB — enforced by the server, not just displayed.</p>
+          <p class="where"><strong>In this project:</strong> set per customer from the Platform dashboard and applied on the very next request; storage is measured from disk.</p>
+        </article>
+        <article class="term" data-cat="Data">
+          <h3>Audit history <span class="cat">Data</span></h3>
+          <p>A permanent record of who changed what, when and why — essential for billing disputes and compliance.</p>
+          <p class="where"><strong>In this project:</strong> every limit or contract change is logged with before/after values, author, date and reason.</p>
+        </article>
+
+        <!-- ---------- SECURITY ---------- -->
+        <article class="term" data-cat="Security">
+          <h3>JWT (JSON Web Token) <span class="cat">Security</span></h3>
+          <p>A signed digital "pass" the server gives you after login. The app shows it with each request to prove who you are, without sending your password again.</p>
+          <p class="where"><strong>In this project:</strong> sessions use JWTs signed with a secret that is generated per deployment and never committed.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>Password hashing (bcrypt) <span class="cat">Security</span></h3>
+          <p>Passwords are never stored as text. They are scrambled with a one-way, deliberately slow algorithm, so even a database leak does not reveal them.</p>
+          <p class="where"><strong>In this project:</strong> bcrypt hashes for all accounts; the admin export strips the hash columns entirely.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>RBAC — role-based access control <span class="cat">Security</span></h3>
+          <p>Permissions are tied to roles (investigator, supervisor, admin) rather than to individuals, so access is predictable and auditable.</p>
+          <p class="where"><strong>In this project:</strong> roles <span class="mono">AERO</span>, <span class="mono">SUP</span>, <span class="mono">ADMIN</span>, plus a separate platform owner — and the role is <em>re-checked against the database on every request</em>, so deactivating a user takes effect immediately.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>Rate limiting <span class="cat">Security</span></h3>
+          <p>Restricting how many attempts one client can make in a given time, which blocks password-guessing attacks.</p>
+          <p class="where"><strong>In this project:</strong> express-rate-limit protects the login endpoint.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>HTTP security headers (Helmet) <span class="cat">Security</span></h3>
+          <p>Extra instructions sent to browsers that switch off common attack tricks such as clickjacking and content sniffing.</p>
+          <p class="where"><strong>In this project:</strong> helmet is enabled on the API.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>CORS <span class="cat">Security</span></h3>
+          <p>A browser rule deciding which websites may call the API. Locking it down stops other sites from using a visitor's session.</p>
+          <p class="where"><strong>In this project:</strong> allowed origins are configurable per deployment.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>HTTPS / TLS <span class="cat">Security</span></h3>
+          <p>Encrypts traffic between the user and the server so nobody on the network can read or alter it (the padlock in the browser).</p>
+          <p class="where"><strong>In this project:</strong> Caddy obtains and renews certificates automatically.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>Encrypted offsite backups <span class="cat">Security</span></h3>
+          <p>Backup copies are encrypted <em>before</em> leaving the server and stored in a different data centre, so a stolen or failed machine cannot expose or lose the data.</p>
+          <p class="where"><strong>In this project:</strong> <span class="mono">age</span> encryption + rsync over SSH to a Hetzner Storage Box; 14-day retention.</p>
+        </article>
+        <article class="term" data-cat="Security">
+          <h3>Safe-by-default demo seeding <span class="cat">Security</span></h3>
+          <p>Scripts that can destroy data are given guards that make accidental misuse impossible.</p>
+          <p class="where"><strong>In this project:</strong> the demo-data script refuses to run unless <span class="mono">DEMO_MODE=1</span>, the database name contains "demo", and no real users exist.</p>
+        </article>
+
+        <!-- ---------- DEVOPS ---------- -->
+        <article class="term" data-cat="DevOps">
+          <h3>Docker &amp; Docker Compose <span class="cat">DevOps</span></h3>
+          <p>Packages each part of the system (database, API, web server) into an isolated container, so it runs identically on any machine. Compose starts them all together with one command.</p>
+          <p class="where"><strong>In this project:</strong> <span class="mono">docker compose up -d --build</span> launches MariaDB, the API and Caddy.</p>
+        </article>
+        <article class="term" data-cat="DevOps">
+          <h3>Reverse proxy (Caddy) <span class="cat">DevOps</span></h3>
+          <p>A front door that receives all traffic and routes it: website files to the browser, <span class="mono">/api</span> calls to the API.</p>
+          <p class="where"><strong>In this project:</strong> web and API share one domain, which also avoids cross-origin complications.</p>
+        </article>
+        <article class="term" data-cat="DevOps">
+          <h3>VPS hosting &amp; server hardening <span class="cat">DevOps</span></h3>
+          <p>Renting a virtual server and securing it: non-root user, SSH keys only, firewall, automatic security updates.</p>
+          <p class="where"><strong>In this project:</strong> Hetzner Ubuntu server, UFW allowing only SSH/80/443, unattended-upgrades enabled.</p>
+        </article>
+        <article class="term" data-cat="DevOps">
+          <h3>Backup &amp; restore <span class="cat">DevOps</span></h3>
+          <p>A backup you have never restored is only a hope. Scripts must do both directions and be tested.</p>
+          <p class="where"><strong>In this project:</strong> <span class="mono">backup.sh</span>, <span class="mono">restore.sh</span> and <span class="mono">update.sh</span> in <span class="mono">deploy/</span>, scheduled with cron.</p>
+        </article>
+        <article class="term" data-cat="DevOps">
+          <h3>Environment variables &amp; secrets <span class="cat">DevOps</span></h3>
+          <p>Passwords and keys live in a configuration file outside the code, different for every environment, never in Git.</p>
+          <p class="where"><strong>In this project:</strong> <span class="mono">.env</span> files, with generated random secrets for the database and JWT.</p>
+        </article>
+        <article class="term" data-cat="DevOps">
+          <h3>Isolated demo environment <span class="cat">DevOps</span></h3>
+          <p>A public copy of the product with fake data, fully separate from the real system, so prospects can try it with zero risk.</p>
+          <p class="where"><strong>In this project:</strong> its own database, API, uploads and secrets on a subdomain; resets itself nightly.</p>
+        </article>
+
+        <!-- ---------- DOCUMENTS ---------- -->
+        <article class="term" data-cat="Documents">
+          <h3>PDF generation from a template <span class="cat">Documents</span></h3>
+          <p>Filling an official, pre-designed PDF with the data from a report, so output matches the layout the client already uses.</p>
+          <p class="where"><strong>In this project:</strong> pdf-lib fills the company template; the result is a paper-ready investigation report.</p>
+        </article>
+        <article class="term" data-cat="Documents">
+          <h3>PDF stamping <span class="cat">Documents</span></h3>
+          <p>Writing extra information onto an existing PDF after the fact — such as an approval stamp.</p>
+          <p class="where"><strong>In this project:</strong> when a supervisor approves a report, the PDF receives the "Validated by / Referenced / Reported by" stamp.</p>
+        </article>
+        <article class="term" data-cat="Documents">
+          <h3>Word &amp; Excel export <span class="cat">Documents</span></h3>
+          <p>Producing editable files that office staff can open, adjust and send on.</p>
+          <p class="where"><strong>In this project:</strong> <span class="mono">docx</span> builds Word reports; admin tables and the whole database export to .xlsx (one sheet per table).</p>
+        </article>
+        <article class="term" data-cat="Documents">
+          <h3>ZIP bundling <span class="cat">Documents</span></h3>
+          <p>Packaging a report with its evidence into one download.</p>
+          <p class="where"><strong>In this project:</strong> each completed report downloads as a ZIP containing the PDF and its attachments, organised in numbered folders.</p>
+        </article>
+
+        <!-- ---------- DOMAIN ---------- -->
+        <article class="term" data-cat="Domain">
+          <h3>Incident investigation workflow <span class="cat">Domain</span></h3>
+          <p>A structured process: record what happened, analyse why, decide actions, then have a supervisor review and approve.</p>
+          <p class="where"><strong>In this project:</strong> operator drafts → submits → supervisor approves or rejects (with a reason) → admin analyses trends.</p>
+        </article>
+        <article class="term" data-cat="Domain">
+          <h3>Root-cause analysis <span class="cat">Domain</span></h3>
+          <p>Looking past the visible event to find the underlying reason, so the same incident does not happen again.</p>
+          <p class="where"><strong>In this project:</strong> a dedicated step with type → category → subcategory pickers and a free-text description of contributing factors.</p>
+        </article>
+        <article class="term" data-cat="Domain">
+          <h3>Risk matrix <span class="cat">Domain</span></h3>
+          <p>Rating an event by multiplying how severe it is by how often it happens, giving a single comparable number.</p>
+          <p class="where"><strong>In this project:</strong> severity (1–5) × frequency (1–5) = risk level 1–25, which drives the Critical Alerts view.</p>
+        </article>
+        <article class="term" data-cat="Domain">
+          <h3>Mitigation measures <span class="cat">Domain</span></h3>
+          <p>The actions chosen to reduce a risk. A shared, growing library avoids re-typing the same measures.</p>
+          <p class="where"><strong>In this project:</strong> pick an existing measure or create a new one; admins maintain the list and see frequency per employer.</p>
+        </article>
+        <article class="term" data-cat="Domain">
+          <h3>SMS score <span class="cat">Domain</span></h3>
+          <p>A running safety-management score per employee that grows with the risk level of the incidents they are involved in.</p>
+          <p class="where"><strong>In this project:</strong> approved reports raise it; the dashboard ranks the top employees and groups by region.</p>
+        </article>
+        <article class="term" data-cat="Domain">
+          <h3>Document validity tracking <span class="cat">Domain</span></h3>
+          <p>Keeping expiry dates of licences and permits and renewing them with a history.</p>
+          <p class="where"><strong>In this project:</strong> employer validity fields with <em>Renew Validity</em> and <em>Validity History</em> actions.</p>
+        </article>
+
+        <!-- ---------- OTHER PROJECTS ---------- -->
+        <article class="term" data-cat="Other projects">
+          <h3>Supabase <span class="cat">Other projects</span></h3>
+          <p>A hosted back end made of PostgreSQL, authentication, storage and serverless functions — a fast route to a secure SaaS.</p>
+          <p class="where"><strong>In CriptoRadar:</strong> email + Google OAuth sign-in and the database.</p>
+        </article>
+        <article class="term" data-cat="Other projects">
+          <h3>Row-level security (RLS) <span class="cat">Other projects</span></h3>
+          <p>Rules inside the database that decide, row by row, which records each user may read or change — even if the app code has a bug.</p>
+          <p class="where"><strong>In CriptoRadar:</strong> each user can only touch their own watchlists and alerts.</p>
+        </article>
+        <article class="term" data-cat="Other projects">
+          <h3>Webhooks &amp; HMAC signatures <span class="cat">Other projects</span></h3>
+          <p>A webhook is a message another service sends you when something happens (e.g. a payment). An HMAC signature proves the message is genuine and untampered.</p>
+          <p class="where"><strong>In CriptoRadar:</strong> subscription payments are confirmed through HMAC-verified webhooks.</p>
+        </article>
+        <article class="term" data-cat="Other projects">
+          <h3>Edge / serverless functions <span class="cat">Other projects</span></h3>
+          <p>Small pieces of server code that run on demand, with no server to manage — good for scheduled jobs.</p>
+          <p class="where"><strong>In CriptoRadar:</strong> a function emails price alerts on a cron schedule.</p>
+        </article>
+        <article class="term" data-cat="Other projects">
+          <h3>LLM integration <span class="cat">Other projects</span></h3>
+          <p>Calling a large language model from your own product to summarise, analyse or transcribe.</p>
+          <p class="where"><strong>In SummaryAI:</strong> Node/Express backend calling GPT-4o via OpenRouter; <strong>in CriptoRadar:</strong> AI market analysis.</p>
+        </article>
+        <article class="term" data-cat="Other projects">
+          <h3>Native Android (Kotlin, Jetpack Compose) <span class="cat">Other projects</span></h3>
+          <p>Building an Android app in the platform's own language and UI toolkit, for the most native feel.</p>
+          <p class="where"><strong>In SummaryAI:</strong> Compose UI with Retrofit for networking.</p>
+        </article>
+      </div>
+      <p class="no-results" id="no-results">No terms match your search. Try another word or clear the filter.</p>
+
+      <!-- ============ DECISIONS ============ -->
+      <h2 class="section-title" style="margin-top: 3.5rem">Engineering decisions worth noting</h2>
+      <p class="lead">
+        Choices that show how the system was designed, not just which libraries
+        were installed.
+      </p>
+      <div class="decisions">
+        <div class="decision">
+          <h3>Trust the database, not the token</h3>
+          <p>A JWT can outlive a user's access. The API re-reads the user's role and status from the database on every request, so removing someone is instant.</p>
+        </div>
+        <div class="decision">
+          <h3>Enforce limits on the server</h3>
+          <p>User and storage quotas are checked by the API at the moment of the action. Hiding a button in the UI would be cosmetic; this cannot be bypassed.</p>
+        </div>
+        <div class="decision">
+          <h3>One codebase, honest platform limits</h3>
+          <p>Admin tooling is deliberately web-only; the Android app shows a clear notice instead of a cramped dashboard. Fewer screens to maintain, a better experience on each device.</p>
+        </div>
+        <div class="decision">
+          <h3>Drafts live on the server</h3>
+          <p>Investigations take time and happen in the field. Server-side drafts mean no lost work and the ability to continue on another device.</p>
+        </div>
+        <div class="decision">
+          <h3>Backups that survive losing the server</h3>
+          <p>Local backups are not enough. Encrypted copies go to a different data centre, and the restore path is scripted and meant to be tested.</p>
+        </div>
+        <div class="decision">
+          <h3>Demo that cannot touch production</h3>
+          <p>A separate stack with fictional data, reset nightly, and a seeding script with triple safety guards — so showing the product never risks real records.</p>
+        </div>
+      </div>
+
+      <!-- ============ CTA ============ -->
+      <div class="cta-band">
+        <h2>Want to see it working?</h2>
+        <p>The user manual walks through every screen and workflow. Or get in touch and I'll show you a live demo.</p>
+        <div class="btn-group">
+          <a href="downloads/AccidentReport-User-Manual.pdf" target="_blank" rel="noopener" class="btn btn-gold">Open the user manual (PDF)</a>
+          <a href="contactos.html" class="btn btn-outline">Contact me</a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 SrNando — Fernando Gonçalves. All rights reserved.</p>
+      <p>
+        Lisbon, Portugal ·
+        <a href="mailto:fernandosantosav135@gmail.com">fernandosantosav135@gmail.com</a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      // Glossary: live search + category filter (works without JS as a plain list)
+      (function () {
+        var cards = Array.prototype.slice.call(document.querySelectorAll("#glossary-list .term"));
+        var input = document.getElementById("term-search");
+        var chips = Array.prototype.slice.call(document.querySelectorAll("#chips .chip"));
+        var count = document.getElementById("result-count");
+        var none = document.getElementById("no-results");
+        var cat = "all";
+
+        function apply() {
+          var q = input.value.trim().toLowerCase();
+          var shown = 0;
+          cards.forEach(function (c) {
+            var okCat = cat === "all" || c.getAttribute("data-cat") === cat;
+            var okQ = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
+            c.hidden = !(okCat && okQ);
+            if (!c.hidden) shown++;
+          });
+          count.textContent = shown + " of " + cards.length + " terms";
+          none.style.display = shown ? "none" : "block";
+        }
+
+        chips.forEach(function (chip) {
+          chip.addEventListener("click", function () {
+            chips.forEach(function (c) { c.classList.remove("active"); });
+            chip.classList.add("active");
+            cat = chip.getAttribute("data-cat");
+            apply();
+          });
+        });
+        input.addEventListener("input", apply);
+        apply();
+      })();
+    </script>
+  </body>
+</html>

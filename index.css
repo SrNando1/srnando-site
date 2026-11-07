@@ -420,3 +420,39 @@ footer a {
     align-items: flex-start;
   }
 }
+
+/* CLICKABLE PROJECT CARD (whole card opens the project page) */
+.project-card.is-link {
+  position: relative;
+  cursor: pointer;
+}
+.project-card.is-link .card-link {
+  color: inherit;
+  text-decoration: none;
+}
+.project-card.is-link .card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.project-card.is-link .card-link:focus-visible::after {
+  outline: 3px solid var(--primary);
+  outline-offset: -3px;
+  border-radius: 12px;
+}
+.project-card.is-link:hover h3 {
+  color: var(--primary-dark);
+}
+/* buttons that go somewhere else stay clickable above the card link */
+.project-card.is-link .project-link-alt {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: 2px solid var(--primary);
+  padding: calc(0.6rem - 2px) calc(1.2rem - 2px);
+}
+.project-card.is-link .project-link-alt:hover {
+  background: var(--primary);
+  color: var(--dark);
+}
