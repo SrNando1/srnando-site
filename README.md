@@ -1,6 +1,6 @@
-# SrNando: portfolio and studio site
+# SrNando Company: portfolio and studio site
 
-The website of **SrNando**, the independent web and SaaS studio of Fernando Gonçalves (Lisbon, Portugal). It presents the services offered, the projects built so far and how to get in touch.
+The website of **SrNando Company**, the independent web and SaaS studio of Fernando Gonçalves (Lisbon, Portugal). It presents the services offered, the projects built so far and how to get in touch.
 
 **Live site:** [srnandocompany.vercel.app](https://srnandocompany.vercel.app)
 
